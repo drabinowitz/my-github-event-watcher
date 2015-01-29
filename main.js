@@ -107,7 +107,6 @@ async.series([
     throw err;
   } else {
     console.log('Database initialization complete.');
-    init();
   }
 });
 
