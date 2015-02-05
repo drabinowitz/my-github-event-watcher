@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactBootstrap  = require('react-bootstrap');
 var ReactD3 = require('react-d3');
-var ScatterChart = ReactD3.ScatterChart;
+var BarChart = ReactD3.BarChart;
 var Table = ReactBootstrap.Table;
 var EventsStore = require('../stores/EventsStore');
 var _ = require('underscore');
@@ -45,38 +45,32 @@ var Github = React.createClass({
         <tr key={event.github_id}>
           <td>{event.github_id}</td>
           <td>{event.type}</td>
-          <td>{event.created_at}</td>
+          <td>{moment(event.created_at).toISOString()}</td>
         </tr>
       );
     }).reverse();
 
     var chart;
-    if (!this.state.loading) {
-      var eventData = _.groupBy(this.state.events, 'type');
-      var chartData = {};
-      var eventType;
-      for (eventType in eventData) {
-        chartData[eventType] = eventData[eventType].map(function (event) {
-          return {
-            x: 24 - moment.duration(moment()-moment(event.created_at)).asHours(),
-            y: event.id
-          };
-        });
-      }
-
-      chart = (
-        <ScatterChart
-          data={chartData}
-          width={700}
-          height={600}
-          title="Event Data" />
-      );
+    var eventData = _.groupBy(this.state.events, 'type');
+    var chartData = [];
+    var eventType;
+    for (eventType in eventData) {
+      chartData.push({label: eventType, value: eventData[eventType].length})
     }
+
+    chart = (
+      <BarChart
+        data={chartData}
+        width={700}
+        height={600}
+        fill={'#3182bd'}
+        title="Github Event Data" />
+    );
 
     return (
       <div>
         {chart}
-        <Table responsive>
+        <Table striped bordered hover responsive>
           <thead>
             {tableHeader}
           </thead>

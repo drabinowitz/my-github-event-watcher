@@ -5,15 +5,15 @@ var $ = require('jquery');
 var eventsData = [];
 
 var EventsStore = assign({}, EventEmitter.prototype, {
-  _events: eventsData,
+  _githubEvents: eventsData,
 
   preloadData: function (data) {
-    this._events = data;
+    this._githubEvents = data;
   },
 
   getNewestEventTimestamp: function () {
-    if (this._events) {
-      return this._events[this._events.length - 1].created_at;
+    if (this._githubEvents) {
+      return this._githubEvents[this._githubEvents.length - 1].created_at;
     }
   },
 
@@ -30,11 +30,11 @@ var EventsStore = assign({}, EventEmitter.prototype, {
   },
 
   getAll: function () {
-    return this._events;
+    return this._githubEvents;
   },
 
   get: function (events) {
-    this._events = this._events.concat(events);
+    this._githubEvents = this._githubEvents.concat(events);
     this.emitChange();
   }
 });
@@ -55,7 +55,7 @@ if (typeof window !== 'undefined') {
       };
     }
     $.ajax(request);
-  }, 60000);
+  }, 10000);
   if (window.__preloadedData && window.__preloadedData.events) {
     EventsStore.preloadData(window.__preloadedData.events);
   }

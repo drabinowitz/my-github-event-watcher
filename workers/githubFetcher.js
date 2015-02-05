@@ -23,12 +23,10 @@ var submitRequest = function(pageToRequest, pagedData) {
   return httpRequest.getAsync(generateRequest(pageToRequest, lastRequestETag))
   .then(function (results) {
     //if there is new data to request
-    console.log(results.code);
     if (parseInt(results.code, 10) === 200) {
       //if this is the initial request and there is new data, then update ETag
       if (pageToRequest === 1) {
         lastRequestETag = results.headers.etag;
-        console.log(lastRequestETag);
       }
       var data = JSON.parse(results.buffer.toString());
       var oldestId = parseInt(data[data.length - 1].id, 10);
