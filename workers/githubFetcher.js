@@ -20,15 +20,15 @@ var generateRequest = function (pageNumber, eTag) {
 
 //submit our individual request here
 var submitRequest = function(pageToRequest, pagedData) {
-  return httpRequest.getAsync(generateRequest(page, lastRequestETag))
+  return httpRequest.getAsync(generateRequest(pageToRequest, lastRequestETag))
   .then(function (results) {
     //if there is new data to request
     if (parseInt(results.code, 10) === 200) {
       //if this is the initial request and there is new data, then update ETag
       if (pageToRequest === 1) {
-        lastRequestETag = pageToRequest.headers.ETag;
+        lastRequestETag = results.headers.ETag;
       }
-      var data = results.buffer.toString();
+      var data = JSON.parse(results.buffer.toString());
       var oldestId = parseInt(data[data.length - 1].id, 10);
       //if oldest id on page is younger than our last request id return false, otherwise grab all the ids younger than our last request id and return true
       if (!lastRequestId || oldestId > lastRequestId) {
@@ -54,11 +54,11 @@ var recursivelyRequestPages = function (pageToRequest, pagedData) {
     if (isFinishedQuerying || pageToRequest === 10) {
       lastRequestId = parseInt(pagedData[0][0].id, 10);
       var eventsToSave = [];
-      //loop through pages of data
-      for (var i = 0; i < pagedData.length; i++) {
+      //loop through pages of data starting at last page
+      for (var i = pagedData.length - 1; i >= 0 ; i--) {
         var pageOfData = pagedData[i];
-        //loop through data in page
-        for (var j = 0; j < pageOfData; j++) {
+        //loop through data in page starting at last and going to first
+        for (var j = pageOfData.length - 1; j >= 0; j--) {
           var eventData = pageOfData[j];
           eventsToSave.push({
             type: eventData.type,
@@ -68,6 +68,7 @@ var recursivelyRequestPages = function (pageToRequest, pagedData) {
           });
         }
       }
+      console.log(eventsToSave);
       new Events(eventsToSave).invoke('save');
     } else {
       recursivelyRequestPages(pageToRequest + 1, pagedData);

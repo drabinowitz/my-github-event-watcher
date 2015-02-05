@@ -7,6 +7,7 @@ var db = Bookshelf.initialize({
     user: process.env.RDS_USERNAME || '',
     password: process.env.RDS_PASSWORD || '',
     port: process.env.RDS_PORT || '',
+    database: 'github_events',
     charset: 'utf8'
   }
 });
