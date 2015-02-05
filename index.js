@@ -1,4 +1,5 @@
-var app = require('../main');
+var app = require('./main');
+require('./workers/githubFetcher')();
 var debug = require('debug')('testingEB:server');
 var http = require('http');
 

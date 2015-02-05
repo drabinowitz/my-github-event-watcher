@@ -7,7 +7,7 @@ module.exports = function (contentString, dataStores) {
     script = '<script>window.__preloadedData = {};';
     for (i; i < argumentsLength; i++) {
       dataStores = arguments[i];
-      script += 'window.__preloadedData["' + datastores.key + '"] = ' + datastores.data + ';';
+      script += 'window.__preloadedData["' + dataStores.key + '"] = ' + dataStores.data + ';';
     }
     script += '</script>';
   }
@@ -15,16 +15,15 @@ module.exports = function (contentString, dataStores) {
     "<!DOCTYPE html>" +
     "<html lang='en'>" +
       "<head>" +
-        "<title>Isomorphic App</title>" +
-        "<link rel='stylesheet' href='./stylesheets/style.css'>" +
+        "<title>Github Event Chart</title>" +
+        "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css'>" +
       "</head>" +
       "<body>" +
-        "<h1>Hello Todo</h1>" +
         "<div id='content'>" +
           contentString +
         "</div>" +
-        "<script src='./javascripts/bundle.js' async></script>" +
         script +
+        "<script src='./javascripts/bundle.js' async></script>" +
       "</body>" +
     "</html>"
   );

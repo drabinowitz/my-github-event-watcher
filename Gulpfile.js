@@ -36,19 +36,19 @@ gulp.task('sass-watch', ['sass'], function () {
 });
 
 gulp.task('jsx', shell.task([
-  'jsx --no-cache-dir public/jsx/ public/javascripts/react/'
+  'jsx --no-cache-dir public/javascripts/jsx/ public/javascripts/react/'
 ]));
 
 gulp.task('jsx-watch', ['jsx'], function () {
-  watch('./public/jsx/**/*.js', function () {
+  watch('./public/javascripts/jsx/**/*.js', function () {
     gulp.start('jsx');
   });
 });
 
 gulp.task('browserify', shell.task([
-  'browserify public/jsx/Router.js -o public/javascripts/bundle.js'
+  'browserify public/javascripts/jsx/Router.js -o public/javascripts/bundle.js'
 ]));
 
 gulp.task('watchify', shell.task([
-  'watchify -d public/jsx/Router.js -o public/javascripts/bundle.js -v'
+  'watchify -d public/javascripts/jsx/Router.js -o public/javascripts/bundle.js -v'
 ]));

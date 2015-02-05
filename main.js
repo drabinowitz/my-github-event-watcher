@@ -4,19 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var indexRoutes = require('./routes');
-var appRoutes = require('./routes/api');
+var viewRoutes = require('./routes');
+var apiRoutes = require('./routes/api');
 
 var app = express();
 
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRoutes);
-app.use('/api/', appRoutes);
+app.use('/', viewRoutes);
+app.use('/api', apiRoutes);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

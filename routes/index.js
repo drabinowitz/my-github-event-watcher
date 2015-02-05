@@ -1,13 +1,21 @@
 var express = require('express');
 var React = require('react');
 var Router = require('react-router');
-var clientRoutes = require('../public/jsx/router');
+var ClientRoutes = require('../public/javascripts/react/Router');
 var generateIndexHtml = require('../public/generateIndexHtml');
+var EventsPreloader = require('../preloaders/EventsPreloader');
 
-module.exports = express.Router().get('/', function (req, res) {
+var defaultResponse = function (req, res) {
   var pageHtml;
-  Router.run(clientRoutes, req.url, function (Handler) {
-    pageHtml = React.renderToString(React.createElement(Handler, null));
-    res.send(generateIndexHtml(pageHtml));
+  EventsPreloader().then(function (dataToAttach) {
+    Router.run(ClientRoutes, req.url, function (Handler) {
+      pageHtml = React.renderToString(React.createElement(Handler, null));
+      res.send(generateIndexHtml(pageHtml, dataToAttach));
+    });
   });
-});
+};
+
+module.exports = express.Router()
+.get('/', defaultResponse)
+.get('/github', defaultResponse)
+.get('/about-me', defaultResponse);
