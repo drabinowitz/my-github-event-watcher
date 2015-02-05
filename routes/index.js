@@ -1,9 +1,13 @@
 var express = require('express');
-var router = express.Router();
+var React = require('react');
+var Router = require('react-router');
+var clientRoutes = require('../public/jsx/router');
+var generateIndexHtml = require('../public/generateIndexHtml');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+module.exports = express.Router().get('/', function (req, res) {
+  var pageHtml;
+  Router.run(clientRoutes, req.url, function (Handler) {
+    pageHtml = React.renderToString(React.createElement(Handler, null));
+    res.send(generateIndexHtml(pageHtml));
+  });
 });
-
-module.exports = router;
