@@ -51,6 +51,7 @@
     "react-tools": "^0.12.2",
     "reactify": "^1.0.0",
     "serve-favicon": "~2.2.0",
+    "uglifyjs": "^2.3.6",
     "underscore": "^1.7.0",
     "watchify": "^2.2.1"
   }

@@ -52,3 +52,7 @@ gulp.task('browserify', shell.task([
 gulp.task('watchify', shell.task([
   'watchify -d public/javascripts/jsx/Router.js -o public/javascripts/bundle.js -v'
 ]));
+
+gulp.task('browserify-production', shell.task([
+  'NODE_ENV=production browserify public/javascripts/jsx/Router.js | uglifyjs -cm > public/javascripts/bundle.js'
+]));

@@ -7,7 +7,6 @@ module.exports = express.Router().get('/', function (req, res) {
     timestamp = req.query.newestEventTimestamp;
   }
   EventsController.getNewEvents(timestamp).then(function (collection) {
-    console.log(collection.toJSON());
     res.json(collection);
   });
 });
