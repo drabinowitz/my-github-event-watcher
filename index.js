@@ -2,10 +2,10 @@ var mysql = require('mysql');
 var async = require('async');
 
 var client = mysql.createConnection({
-  host: process.env.RDS_HOSTNAME,
-  user: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
-  port: process.env.RDS_PORT
+  host: process.env.RDS_HOSTNAME || '127.0.0.1',
+  user: process.env.RDS_USERNAME || 'root',
+  password: process.env.RDS_PASSWORD || '',
+  port: process.env.RDS_PORT || ''
 });
 async.series([
   function connect(callback) {
@@ -19,7 +19,6 @@ async.series([
   },
   function () {
     var app = require('./main');
-    require('./workers/githubFetcher')();
     var debug = require('debug')('testingEB:server');
     var http = require('http');
 

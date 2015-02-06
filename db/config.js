@@ -3,8 +3,8 @@ var Bookshelf = require('bookshelf');
 var db = Bookshelf.initialize({
   client: 'mysql',
   connection: {
-    host: process.env.RDS_HOSTNAME || '',
-    user: process.env.RDS_USERNAME || '',
+    host: process.env.RDS_HOSTNAME || '127.0.0.1',
+    user: process.env.RDS_USERNAME || 'root',
     password: process.env.RDS_PASSWORD || '',
     port: process.env.RDS_PORT || '',
     database: 'github_events',
@@ -23,6 +23,7 @@ db.knex.schema.hasTable('events')
     })
     .then(function (table) {
       console.log('Created Table', table);
+      require('../workers/githubFetcher')();
     });
   }
 });
