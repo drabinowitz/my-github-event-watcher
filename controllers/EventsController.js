@@ -3,7 +3,7 @@ var moment = require('moment');
 
 module.exports.getNewEvents = function (timestamp) {
   if (timestamp) {
-    timestamp = moment(timestamp).subtract(5, 'hours').toISOString();
+    timestamp = moment(timestamp).add(moment().utcOffset(), 'minutes').toISOString();
   } else {
     timestamp = moment().subtract(1, 'days').toISOString();
   }
