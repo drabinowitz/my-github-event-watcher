@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var async = require('async');
 
 var client = mysql.createConnection({
-  host: process.env.RDS_HOSTNAME || '127.0.0.1',
-  user: process.env.RDS_USERNAME || 'root',
+  host: process.env.RDS_HOSTNAME || '',
+  user: process.env.RDS_USERNAME || '',
   password: process.env.RDS_PASSWORD || '',
   port: process.env.RDS_PORT || ''
 });
